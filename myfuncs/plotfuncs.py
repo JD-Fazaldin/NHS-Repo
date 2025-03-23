@@ -54,13 +54,32 @@ def setup_plot(l, h, title, x_label, y_label, x_limits=None, y_limits=None, x_ti
     if y_ticks:
         ax.set_yticks(y_ticks)
 
-def plot_line_chart(df, x_col, y_col, l=10, h=6, title='Line Chart', x_limits=None, y_limits=None, x_ticks=None, y_ticks=None):
-    df_sorted, x_label, y_label = preprocess_chart_data(df, x_col, y_col)
-    
-    # Plot line chart
-    for col in df_sorted.columns:
-        sns.lineplot(data=df_sorted, x=df_sorted.index, y=col, marker='o', label=mf.clean_label(col))
-
-    setup_plot(l, h, title, x_label, y_label, x_limits, y_limits, x_ticks, y_ticks)
     plt.legend(title=y_label, bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.show()
+
+def plot_line_chart(df, x_col, y_col, l=10, h=6, title='Line Chart', x_limits=None, y_limits=None, x_ticks=None, y_ticks=None):
+    df, x_label, y_label = preprocess_chart_data(df, x_col, y_col)
+    
+    # Plot line chart
+    for col in df.columns:
+        sns.lineplot(data=df, x=df.index, y=col, marker='o', label=mf.clean_label(col))
+
+    setup_plot(l, h, title, x_label, y_label, x_limits, y_limits, x_ticks, y_ticks)
+
+
+def plot_stacked_bar_chart(df, x_col, y_col, l=10, h=6, title='Stacked Bar Chart', x_limits=None, y_limits=None, x_ticks=None, y_ticks=None):
+    df, x_label, y_label = preprocess_chart_data(df, x_col, y_col)
+
+    # Plot stacked bar chart
+    df.plot(kind='bar', stacked=True, ax=ax)
+
+    setup_plot(l, h, title, x_label, y_label, x_limits, y_limits, x_ticks, y_ticks)
+
+def plot_clustered_bar_chart(df, x_col, y_col, l=10, h=6, title='Clustered Bar Chart', x_limits=None, y_limits=None, x_ticks=None, y_ticks=None):
+    df, x_label, y_label = preprocess_chart_data(df, x_col, y_col)
+
+    # Plot clustered bar chart
+    
+    df.plot(kind='bar', stacked=False, ax=ax)
+
+    setup_plot(l, h, title, x_label, y_label, x_limits, y_limits, x_ticks, y_ticks)
