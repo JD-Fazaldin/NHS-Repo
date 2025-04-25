@@ -25,7 +25,7 @@ def preprocess_chart_data(df, x_col, y_col):
 
     return df, x_label, y_label
 
-def setup_plot(l, h, title, x_label, y_label, x_limits=None, y_limits=None, x_ticks=None, y_ticks=None):
+def setup_plot(l, h, title, x_label, y_label, **kwargs):
     """
     Set up the plot with titles, labels, and axis limits.
     """
@@ -39,7 +39,7 @@ def setup_plot(l, h, title, x_label, y_label, x_limits=None, y_limits=None, x_ti
     plt.tight_layout()
 
     # Set limits
-    if x_limits:
+    if kwargs.get():
         ax.set_xlim(x_limits)
     if y_limits:
         ax.set_ylim(y_limits)
@@ -57,29 +57,60 @@ def setup_plot(l, h, title, x_label, y_label, x_limits=None, y_limits=None, x_ti
     plt.legend(title=y_label, bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.show()
 
-def plot_line_chart(df, x_col, y_col, l=10, h=6, title='Line Chart', x_limits=None, y_limits=None, x_ticks=None, y_ticks=None):
+
+
+def plot_line_chart(df, x_col, y_col, l=10, h=6, title='Line Chart', **kwargs):
+    x_limits = kwargs.get('x_limits',False)
+    y_limits = kwargs.get('y_limits',False)
+    x_ticks = kwargs.get('x_ticks',False)
+    y_ticks = kwargs.get('y_ticks',False)
+
     df, x_label, y_label = preprocess_chart_data(df, x_col, y_col)
-    
+
     # Plot line chart
     for col in df.columns:
         sns.lineplot(data=df, x=df.index, y=col, marker='o', label=mf.clean_label(col))
 
-    setup_plot(l, h, title, x_label, y_label, x_limits, y_limits, x_ticks, y_ticks)
+    df.plot(kind='bar', stacked=True, ax=plt.gca())
+    df.plot(kind='bar', stacked=False, ax=plt.gca())
+
+    setup_plot(
+        l, h, title, x_label, y_label,
+        x_limits=x_limits, y_limits=y_limits,
+        x_ticks=x_ticks, y_ticks=y_ticks
+    )
 
 
-def plot_stacked_bar_chart(df, x_col, y_col, l=10, h=6, title='Stacked Bar Chart', x_limits=None, y_limits=None, x_ticks=None, y_ticks=None):
+def plot_stacked_bar_chart(df, x_col, y_col, l=10, h=6, title='Stacked Bar Chart', **kwargs):
+    x_limits = kwargs.get('x_limits',False)
+    y_limits = kwargs.get('y_limits',False)
+    x_ticks = kwargs.get('x_ticks',False)
+    y_ticks = kwargs.get('y_ticks',False)
+
     df, x_label, y_label = preprocess_chart_data(df, x_col, y_col)
 
     # Plot stacked bar chart
-    df.plot(kind='bar', stacked=True, ax=ax)
+    df.plot(kind='bar', stacked=True, ax=plt.gca())
 
-    setup_plot(l, h, title, x_label, y_label, x_limits, y_limits, x_ticks, y_ticks)
+    setup_plot(
+        l, h, title, x_label, y_label,
+        x_limits=x_limits, y_limits=y_limits,
+        x_ticks=x_ticks, y_ticks=y_ticks
+    )
 
-def plot_clustered_bar_chart(df, x_col, y_col, l=10, h=6, title='Clustered Bar Chart', x_limits=None, y_limits=None, x_ticks=None, y_ticks=None):
+def plot_clustered_bar_chart(df, x_col, y_col, l=10, h=6, title='Clustered Bar Chart', **kwargs):
+    x_limits = kwargs.get('x_limits',False)
+    y_limits = kwargs.get('y_limits',False)
+    x_ticks = kwargs.get('x_ticks',False)
+    y_ticks = kwargs.get('y_ticks',False)
+
     df, x_label, y_label = preprocess_chart_data(df, x_col, y_col)
 
     # Plot clustered bar chart
-    
-    df.plot(kind='bar', stacked=False, ax=ax)
+    df.plot(kind='bar', stacked=False, ax=plt.gca())
 
-    setup_plot(l, h, title, x_label, y_label, x_limits, y_limits, x_ticks, y_ticks)
+    setup_plot(
+        l, h, title, x_label, y_label,
+        x_limits=x_limits, y_limits=y_limits,
+        x_ticks=x_ticks, y_ticks=y_ticks
+    )
